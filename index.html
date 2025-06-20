@@ -1,785 +1,527 @@
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ứng Dụng Internet Vạn Vật (AIoT) Trong Quản Lý Chuỗi Lạnh Bền Vững</title>
+    <title>IoT Cold Chain Solution</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <style>
-        * {
+        body {
+            font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f8f9fa;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
-
-        @page {
-            size: A4;
-            margin: 0;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 10px;
-        }
-
         .poster-container {
-            width: 210mm;
-            height: 297mm;
-            background: linear-gradient(135deg, #f8faff 0%, #e8f4f8 100%);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            width: 594mm; /* A1 width */
+            height: 841mm; /* A1 height */
+            margin: 0 auto;
+            background-color: white;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
             overflow: hidden;
             position: relative;
         }
-
-        .poster-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="circuit" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="rgba(102,126,234,0.05)"/><line x1="0" y1="10" x2="20" y2="10" stroke="rgba(102,126,234,0.03)" stroke-width="0.5"/><line x1="10" y1="0" x2="10" y2="20" stroke="rgba(102,126,234,0.03)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23circuit)"/></svg>');
-            pointer-events: none;
-        }
-
         .header {
-            background: linear-gradient(135deg, #1a237e 0%, #283593 50%, #3949ab 100%);
+            background: #0078be;
             color: white;
-            padding: 12px 20px;
-            position: relative;
-            overflow: hidden;
-            border-bottom: 3px solid #00bcd4;
+            padding: 20px 40px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
-
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
-            opacity: 0.3;
-        }
-
-        .header::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
+        .header-logo {
             width: 200px;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 188, 212, 0.1));
-            clip-path: polygon(50% 0%, 100% 0%, 100% 100%, 0% 100%);
+            height: auto;
+            margin-right: 20px;
         }
-
-        .university-info {
-            position: relative;
-            z-index: 2;
-            display: flex;
-            align-items: center;
-            gap: 15px;
+        .header-text {
+            flex-grow: 1;
+            text-align: center;
         }
-
-        .university-logo {
-            width: 55px;
-            height: 55px;
-            background: linear-gradient(135deg, #ffffff 0%, #e3f2fd 100%);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: #1a237e;
-            font-size: 11px;
-            border: 2px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            flex-shrink: 0;
+        .header-right {
+            width: 200px;
+            height: auto;
+            margin-left: 20px;
         }
-
-        .university-text {
-            flex: 1;
-        }
-
-        .university-name {
-            font-size: 15px;
+        .header h1 {
+            font-size: 3.6rem;
             font-weight: 700;
-            margin-bottom: 2px;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-            letter-spacing: 0.5px;
+            margin-bottom: 0.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
-
-        .school-name {
-            font-size: 12px;
-            margin-bottom: 6px;
-            opacity: 0.9;
-            font-weight: 400;
-        }
-
-        .contest-title {
-            font-size: 11px;
+        .header h2 {
+            font-size: 2.6rem;
             font-weight: 600;
-            background: linear-gradient(135deg, rgba(0, 188, 212, 0.9), rgba(0, 150, 136, 0.9));
-            padding: 6px 12px;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-            display: inline-block;
+            margin-bottom: 0.2rem;
+            text-transform: uppercase;
         }
-
-        .tech-badge {
-            position: absolute;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: linear-gradient(135deg, #00bcd4, #0097a7);
-            padding: 8px 12px;
-            border-radius: 20px;
-            font-size: 10px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            box-shadow: 0 3px 10px rgba(0, 188, 212, 0.3);
+        .header h3 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 0.2rem;
         }
-
-        .tech-badge::before {
-            content: '🔬';
-            font-size: 14px;
+        .header p {
+            font-size: 1.6rem;
+            margin-bottom: 0;
         }
-
-        .main-content {
-            display: grid;
-            grid-template-columns: 1fr 1.8fr;
-            gap: 15px;
-            padding: 15px;
-            height: calc(297mm - 95px);
+        .content {
+            padding: 2rem 3rem;
         }
-
-        .sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
         .section {
-            background: linear-gradient(135deg, #ffffff 0%, #f8faff 100%);
-            border-radius: 12px;
-            padding: 12px;
-            border-left: 4px solid;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            position: relative;
-            overflow: hidden;
+            margin-bottom: 2.5rem;
         }
-
-        .section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, transparent 0%, rgba(102, 126, 234, 0.05) 100%);
-            border-radius: 0 12px 0 40px;
-        }
-
-        .section.summary {
-            border-left-color: #667eea;
-        }
-
-        .section.content {
-            border-left-color: #f093fb;
-        }
-
-        .section.innovation {
-            border-left-color: #4facfe;
-        }
-
         .section-title {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 8px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 8px;
-            position: relative;
-            overflow: hidden;
+            color: #0061a7;
+            font-weight: 600;
+            border-bottom: 3px solid #0061a7;
+            padding-bottom: 0.6rem;
+            margin-bottom: 1.2rem;
+            font-size: 2.2rem;
+            display: flex;
+            align-items: center;
         }
-
-        .section-title::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            animation: shimmer 3s ease-in-out infinite;
+        .section-title i {
+            margin-right: 15px;
+            font-size: 2.2rem;
         }
-
-        @keyframes shimmer {
-            0% {
-                left: -100%;
-            }
-
-            100% {
-                left: 100%;
-            }
-        }
-
-        .section-title.green {
-            background: linear-gradient(135deg, #11998e, #38ef7d);
-        }
-
-        .section-content {
-            font-size: 11px;
-            line-height: 1.4;
-            color: #333;
-            position: relative;
-            z-index: 1;
-        }
-
-        .main-section {
-            background: linear-gradient(135deg, #ffffff 0%, #f0f8ff 100%);
-            border-radius: 15px;
-            padding: 15px;
-            border: 2px solid #667eea;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
-        }
-
-        .main-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><defs><linearGradient id="tech-bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="rgba(102,126,234,0.02)"/><stop offset="100%" stop-color="rgba(118,75,162,0.02)"/></linearGradient></defs><rect width="400" height="400" fill="url(%23tech-bg)"/><g opacity="0.1"><circle cx="100" cy="100" r="2" fill="%23667eea"/><circle cx="300" cy="150" r="1.5" fill="%23764ba2"/><circle cx="200" cy="300" r="2.5" fill="%23667eea"/><line x1="100" y1="100" x2="200" y2="150" stroke="%23667eea" stroke-width="0.5"/><line x1="200" y1="150" x2="300" y2="150" stroke="%23764ba2" stroke-width="0.5"/><line x1="200" y1="150" x2="200" y2="300" stroke="%23667eea" stroke-width="0.5"/></g></svg>');
-            pointer-events: none;
-        }
-
         .main-title {
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
-            color: white;
-            padding: 12px;
-            border-radius: 10px;
             text-align: center;
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            position: relative;
-            z-index: 1;
-            box-shadow: 0 4px 15px rgba(30, 60, 114, 0.3);
+            margin: 1rem 0;
+            padding: 1.5rem;
+            background-color: #f1f8ff;
+            border-bottom: 1px solid #0061a7;
         }
-
-        .iot-showcase {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-bottom: 15px;
-            position: relative;
-            z-index: 1;
+        .main-title h1 {
+            color: #0061a7;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
         }
-
-        .iot-device {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 10px;
-            padding: 12px;
-            color: white;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.3s ease;
+        .main-title p {
+            color: #444;
+            font-size: 1.8rem;
+            font-weight: 400;
+            max-width: 1600px;
+            margin: 0 auto;
         }
-
-        .iot-device:hover {
-            transform: translateY(-3px);
-        }
-
-        .iot-device::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
-            animation: scan 4s ease-in-out infinite;
-        }
-
-        @keyframes scan {
-
-            0%,
-            100% {
-                transform: translateX(-100%);
-            }
-
-            50% {
-                transform: translateX(100%);
-            }
-        }
-
-        .device-icon {
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            margin: 0 auto 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .device-name {
-            font-size: 10px;
-            font-weight: bold;
-            margin-bottom: 4px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .device-desc {
-            font-size: 8px;
-            opacity: 0.9;
-            position: relative;
-            z-index: 1;
-        }
-
-        .potential-section {
-            background: linear-gradient(135deg, #f093fb, #f5576c);
-            color: white;
-            padding: 12px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            text-align: center;
-            font-weight: bold;
-            font-size: 13px;
-            position: relative;
-            z-index: 1;
-            box-shadow: 0 4px 15px rgba(240, 147, 251, 0.3);
-        }
-
-        .results-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 15px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .result-card {
-            background: linear-gradient(135deg, #ffffff 0%, #f8faff 100%);
-            padding: 10px;
+        .image-container {
+            background-color: #f1f8ff;
             border-radius: 8px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-            border-left: 3px solid #667eea;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .result-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 30px;
-            height: 30px;
-            background: linear-gradient(135deg, transparent, rgba(102, 126, 234, 0.1));
-            border-radius: 0 8px 0 30px;
-        }
-
-        .result-title {
-            background: #667eea;
-            color: white;
-            padding: 6px 10px;
-            border-radius: 6px;
-            font-size: 10px;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-
-        .result-list {
-            list-style: none;
-            font-size: 9px;
-            line-height: 1.3;
-        }
-
-        .result-list li {
-            margin-bottom: 3px;
-            padding-left: 12px;
-            position: relative;
-        }
-
-        .result-list li::before {
-            content: '⚡';
-            position: absolute;
-            left: 0;
-            color: #4facfe;
-            font-size: 10px;
-        }
-
-        .team-section {
-            background: linear-gradient(135deg, #ffffff 0%, #f8faff 100%);
-            border-radius: 10px;
-            padding: 12px;
-            position: relative;
-            z-index: 1;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-        }
-
-        .team-header {
-            background: linear-gradient(135deg, #4facfe, #00f2fe);
-            color: white;
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: bold;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
             text-align: center;
-            margin-bottom: 10px;
+            border: 1px solid rgba(0, 97, 167, 0.1);
         }
-
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
+        .product-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
         }
-
-        .member {
+        .image-container .text-center {
+            font-size: 1.4rem;
+            color: #444;
+            margin-top: 0.5rem;
+        }
+        .feature-box {
+            background-color: #e9f7fe;
+            border-left: 5px solid #0061a7;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 0 8px 8px 0;
+        }
+        .feature-box p {
+            margin-bottom: 0;
+            font-size: 1.6rem;
             display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 6px;
-            background: linear-gradient(135deg, #f8faff 0%, #ffffff 100%);
-            border-radius: 6px;
-            border: 1px solid rgba(102, 126, 234, 0.1);
+        }
+        .feature-box i {
+            margin-right: 12px;
+            font-size: 1.8rem;
+            color: #0061a7;
+        }
+        .team-member {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background-color: rgba(233, 247, 254, 0.5);
+            border-radius: 12px;
             transition: all 0.3s ease;
         }
-
-        .member:hover {
-            transform: translateX(3px);
-            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+        .team-member:hover {
+            background-color: rgba(233, 247, 254, 0.8);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-
-        .member-avatar {
-            width: 28px;
-            height: 28px;
+        .team-member img {
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 10px;
-            font-weight: bold;
-            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+            object-fit: cover;
+            margin-right: 1.8rem;
+            background-color: #e9f7fe;
+            border: 3px solid #0061a7;
         }
-
         .member-info {
-            font-size: 9px;
-            line-height: 1.2;
             flex: 1;
         }
-
         .member-name {
-            font-weight: bold;
-            color: #1e3c72;
-            margin-bottom: 1px;
+            font-weight: 600;
+            margin: 0;
+            font-size: 2.2rem;
+            color: #0061a7;
         }
-
         .member-role {
-            color: #666;
-            font-size: 8px;
+            color: #555;
+            margin: 0;
+            font-size: 1.8rem;
         }
-
-        .highlight-box {
-            background: linear-gradient(135deg, #fff3e0, #ffe0b2);
-            border: 2px solid #ff9800;
-            border-radius: 8px;
-            padding: 8px;
-            margin: 8px 0;
-            font-size: 10px;
-            font-style: italic;
-            position: relative;
-            overflow: hidden;
+        .member-contact {
+            color: #555;
+            margin: 0;
+            font-size: 1.6rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-
-        .highlight-box::before {
-            content: '💡';
-            position: absolute;
-            top: 5px;
-            right: 8px;
-            font-size: 16px;
-            opacity: 0.7;
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 2rem 0;
         }
-
-        .connection-lines {
+        .stat-item {
+            background-color: #f8f9fa;
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 1rem;
+            text-align: center;
+            width: calc(50% - 2rem);
+            flex: 0 0 calc(50% - 2rem);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e9f7fe;
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 180px;
+        }
+        .stat-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+        .stat-value {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #0061a7;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .stat-value i {
+            margin-right: 15px;
+            font-size: 3rem;
+        }
+        .stat-label {
+            color: #555;
+            margin: 0.5rem 0 0;
+            font-size: 2rem;
+            font-weight: 500;
+        }
+        .bg-pattern {
             position: absolute;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
-            pointer-events: none;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1IiBoZWlnaHQ9IjUiPgo8cmVjdCB3aWR0aD0iNSIgaGVpZ2h0PSI1IiBmaWxsPSIjZmZmIj48L3JlY3Q+CjxwYXRoIGQ9Ik0wIDVMNSAwWk02IDRMNCA2Wk0tMSAxTDEgLTFaIiBzdHJva2U9IiNmMWY4ZmYiIHN0cm9rZS13aWR0aD0iMSI+PC9wYXRoPgo8L3N2Zz4=');
+            opacity: 0.05;
             z-index: 0;
+            pointer-events: none;
         }
-
-        .connection-line {
-            position: absolute;
-            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.2), transparent);
-            height: 1px;
-            animation: pulse 3s ease-in-out infinite;
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
         }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                opacity: 0;
-            }
-
-            50% {
-                opacity: 1;
-            }
+        p {
+            margin-bottom: 1rem;
+            font-size: 1.6rem;
+            line-height: 1.4;
         }
-
+        .row {
+            margin-right: -20px;
+            margin-left: -20px;
+        }
+        .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8 {
+            padding-right: 20px;
+            padding-left: 20px;
+        }
+        .highlight-text {
+            color: #0061a7;
+            font-weight: 600;
+        }
+        .text-box {
+            background-color: rgba(233, 247, 254, 0.5);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #0061a7;
+        }
+        .quote {
+            font-style: italic;
+            font-size: 2rem;
+            color: #555;
+            padding: 1rem 2rem;
+            border-left: 4px solid #0061a7;
+            margin: 2rem 0;
+            background-color: rgba(233, 247, 254, 0.3);
+        }
         @media print {
             body {
-                background: white;
-                padding: 0;
+                background: none;
             }
-
             .poster-container {
                 box-shadow: none;
+                margin: 0;
+                width: 594mm;
+                height: 841mm;
+            }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @media (max-width: 991px) {
+            .poster-container {
                 width: 100%;
-                height: 100vh;
+                height: auto;
+            }
+            .header {
+                flex-direction: column;
+                text-align: center;
+                padding: 15px;
+            }
+            .header-logo, .header-right {
+                margin-bottom: 15px;
+                margin-left: 0;
+                margin-right: 0;
+                width: 100px;
+            }
+            .header-text {
+                padding: 0 15px;
+                margin: 15px 0;
+            }
+            .main-title h1 {
+                font-size: 2.5rem;
+            }
+            .main-title p {
+                font-size: 1.8rem;
+            }
+            .section-title {
+                font-size: 2.2rem;
+            }
+            p {
+                font-size: 1.6rem;
             }
         }
     </style>
 </head>
-
 <body>
     <div class="poster-container">
-        <div class="connection-lines">
-            <div class="connection-line" style="top: 20%; left: 10%; width: 30%; animation-delay: 0s;"></div>
-            <div class="connection-line" style="top: 40%; right: 15%; width: 25%; animation-delay: 1s;"></div>
-            <div class="connection-line" style="top: 60%; left: 20%; width: 40%; animation-delay: 2s;"></div>
-            <div class="connection-line" style="top: 80%; right: 10%; width: 35%; animation-delay: 1.5s;"></div>
-        </div>
-
-        <div class="header">
-            <div class="university-info">
-                <div class="university-logo">
-                    <div style="text-align: center; line-height: 1.1;">
-                        <div style="font-size: 10px;">ĐH</div>
-                        <div style="font-size: 10px;">ĐN</div>
-                    </div>
+        <div class="bg-pattern"></div>
+        <div class="content-wrapper">
+            <div class="header">
+                <img src="/logo_ute.png" alt="UTE Logo" class="header-logo" style="border-radius: 50%;">
+                <div class="header-text">
+                    <h1>ĐẠI HỌC ĐÀ NẴNG</h1>
+                    <h2>TRƯỜNG ĐẠI HỌC SƯ PHẠM KỸ THUẬT</h2>
+                    <h3>ĐỀ ÁN HỖ TRỢ HỆ SINH THÁI KHỞI NGHIỆP ĐỔI MỚI SÁNG TẠO QUỐC GIA ĐẾN NĂM 2025 (ĐỀ ÁN 844)</h3>
                 </div>
-                <div class="university-text">
-                    <div class="university-name">ĐẠI HỌC ĐÀ NẴNG</div>
-                    <div class="school-name">TRƯỜNG ĐẠI HỌC SƯ PHẠM KỸ THUẬT</div>
-                    <div class="contest-title">
-                        CUỘC THI "SINH VIÊN VỚI Ý TƯỞNG KHỞI NGHIỆP" 2025
-                    </div>
-                </div>
-                <div class="tech-badge">
-                    IoT • AI • Innovation
-                </div>
+                <img src="/logo_evonics.png" alt="Evonics Logo" class="header-right" style="border-radius: 50%;">
             </div>
-        </div>
-
-        <div class="main-content">
-            <div class="sidebar">
-                <div class="section summary">
-                    <div class="section-title">I. TÓM TẮT</div>
-                    <div class="section-content">
-                        Chuỗi cung ứng lạnh đóng vai trò quan trọng trong việc duy trì chất lượng và tăng giá trị sản
-                        phẩm thông qua việc duy trì nhiệt độ thích hợp, kéo dài thời hạn sử dụng, giảm lãng phí và nâng
-                        cao chất lượng trong điều kiện khí hậu thay đổi.
-                    </div>
-                </div>
-
-                <div class="section content">
-                    <div class="section-title">II. NỘI DUNG</div>
-                    <div class="section-content">
-                        Sản phẩm của nhóm là bộ thiết bị IoT giám sát nhiệt độ, độ ẩm, GPS trong kho hàng và xe đông
-                        lạnh, giúp quản lý tự động hóa điều khiển nhiệt độ, tối ưu năng lượng và đảm bảo chất lượng thực
-                        phẩm. Hệ thống sử dụng LoRaWAN để truyền dữ liệu và Web dashboard để quản lý toàn bộ chuỗi cung
-                        ứng lạnh.
-                    </div>
-
-                    <div class="highlight-box">
-                        Tích hợp AI giúp dự đoán và tối ưu hóa vận hành thông minh, sử dụng LoRa cho độ tin cậy cao
-                        trong môi trường khắc nghiệt.
-                    </div>
-                </div>
-
-                <div class="section innovation">
-                    <div class="section-title green">III. TÍNH SÁNG TẠO</div>
-                    <div class="section-content">
-                        • Kết hợp AI và IoT trong quản lý chuỗi lạnh<br>
-                        • Ứng dụng LoRaWAN cho kết nối tầm xa<br>
-                        • Dashboard thời gian thực với cảnh báo thông minh<br>
-                        • Tối ưu năng lượng bằng thuật toán học máy
-                    </div>
-                </div>
+            
+            <div class="main-title">
+                <h1>GIẢI PHÁP THÔNG MINH CHO CHUỖI CUNG ỨNG LẠNH</h1>
+                <p>Tối ưu hóa năng lượng và giảm thiểu tác động môi trường với công nghệ AIoT</p>
             </div>
-
-            <div class="main-section">
-                <div class="main-title">
-                    ỨNG DỤNG INTERNET VẠN VẬT (AIOT) TRONG QUẢN LÝ CHUỖI LẠNH BỀN VỮNG
-                </div>
-
-                <div class="iot-showcase">
-                    <div class="iot-device">
-                        <div class="device-icon">🌡️</div>
-                        <div class="device-name">Cảm Biến Nhiệt Độ</div>
-                        <div class="device-desc">Giám sát liên tục nhiệt độ môi trường</div>
+            
+            <div class="content">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="section">
+                            <h2 class="section-title"><i class="bi bi-journal-text"></i>TÓM TẮT</h2>
+                            <div class="text-box">
+                                <p style="text-align: justify;">Chuỗi cung ứng lạnh đang là một trong những ngành tiêu thụ năng lượng cao nhất trên thế giới, đồng thời thải lượng lớn khí CO₂ ra môi trường. Theo thống kê, ngành công nghiệp lạnh tiêu thụ khoảng <span class="highlight-text">15-20%</span> tổng lượng điện năng toàn cầu và thải ra <span class="highlight-text">7.8%</span> lượng khí nhà kính.</p>
+                            </div>
+                            <p style="text-align: justify;">Bằng việc tích hợp giải pháp <span class="highlight-text">AIoT</span> (Trí tuệ nhân tạo kết hợp Internet vạn vật) giúp giám sát, tối ưu năng lượng vận hành theo thời gian thực, chúng tôi có thể giảm thiểu đáng kể lãng phí năng lượng, khí thải và thất thoát thực phẩm trong chuỗi cung ứng lạnh.</p>
+                        </div>
                     </div>
-                    <div class="iot-device">
-                        <div class="device-icon">💧</div>
-                        <div class="device-name">Cảm Biến Độ Ẩm</div>
-                        <div class="device-desc">Theo dõi độ ẩm trong kho lạnh</div>
-                    </div>
-                    <div class="iot-device">
-                        <div class="device-icon">📍</div>
-                        <div class="device-name">GPS Tracking</div>
-                        <div class="device-desc">Định vị xe vận chuyển real-time</div>
-                    </div>
-                    <div class="iot-device">
-                        <div class="device-icon">📡</div>
-                        <div class="device-name">LoRaWAN Gateway</div>
-                        <div class="device-desc">Thu thập dữ liệu từ xa</div>
-                    </div>
-                    <div class="iot-device">
-                        <div class="device-icon">🤖</div>
-                        <div class="device-name">AI Analytics</div>
-                        <div class="device-desc">Phân tích dự đoán thông minh</div>
-                    </div>
-                    <div class="iot-device">
-                        <div class="device-icon">📱</div>
-                        <div class="device-name">Mobile App</div>
-                        <div class="device-desc">Quản lý từ xa qua smartphone</div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="/gateway.png" alt="Cold Chain Solution" style="width: 40%; height: auto;">
+                            <div class="text-center">Gateway IoT cho chuỗi cung ứng lạnh</div>
+                        </div>
                     </div>
                 </div>
-
-                <div class="potential-section">
-                    IV. TIỀM NĂNG CỦA DỰ ÁN
-                </div>
-
-                <div class="results-grid">
-                    <div class="result-card">
-                        <div class="result-title">🎯 Kết Quả Đạt Được</div>
-                        <ul class="result-list">
-                            <li>Tiết kiệm 5% năng lượng thắng</li>
-                            <li>Tăng hiệu quả vận tải lên 30%</li>
-                            <li>Giảm 20% tổn thất hàng hóa</li>
-                            <li>Sản phẩm có chi phí cạnh tranh</li>
-                        </ul>
-                    </div>
-
-                    <div class="result-card">
-                        <div class="result-title">🚀 Tiềm Năng Phát Triển</div>
-                        <ul class="result-list">
-                            <li>Mở rộng ra thị trường ASEAN</li>
-                            <li>Phát triển API cho đối tác</li>
-                        </ul>
-                    </div>
-
-                    <div class="result-card">
-                        <div class="result-title">💰 Mô Hình Kinh Doanh</div>
-                        <ul class="result-list">
-                            <li>SaaS - Software as a Service</li>
-                            <li>Thu phí theo thiết bị kết nối</li>
-                            <li>Dịch vụ tư vấn chuyên nghiệp</li>
-                            <li>Bảo trì và nâng cấp hệ thống</li>
-                        </ul>
-                    </div>
-
-                    <div class="result-card">
-                        <div class="result-title">🌍 Tác Động Xã Hội</div>
-                        <ul class="result-list">
-                            <li>Giảm lãng phí thực phẩm</li>
-                            <li>Bảo vệ môi trường xanh sạch</li>
-                            <li>Tạo việc làm cho kỹ sư IoT</li>
-                            <li>Nâng cao an toàn thực phẩm</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="team-section">
-                    <div class="team-header">
-                        👥 V. ĐỘI NGŨ THỰC HIỆN DỰ ÁN
-                    </div>
-                    <div class="team-grid">
-                        <div class="member">
-                            <div class="member-avatar">TS</div>
-                            <div class="member-info">
-                                <div class="member-name">TS. Nguyễn Phú Sinh</div>
-                                <div class="member-role">Giảng viên hướng dẫn</div>
+                
+                <div class="section">
+                    <h2 class="section-title"><i class="bi bi-lightbulb"></i>GIẢI PHÁP CỦA CHÚNG TÔI</h2>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p style="text-align: justify;">Giải pháp của chúng tôi bao gồm bộ thiết bị IoT thông minh thu thập dữ liệu nhiệt độ, độ ẩm, vị trí GPS và nhiều thông số khác trong kho lạnh và xe đông lạnh. Hệ thống được tích hợp công nghệ <span class="highlight-text">AIoT</span> để điều khiển nhiệt độ một cách thông minh, giúp tối ưu hóa lượng năng lượng sử dụng trong việc bảo quản lạnh.</p>
+                            
+                            <div class="quote" style="text-align: justify;">
+                                "Giải pháp IoT của chúng tôi có thể giúp giảm tiêu thụ năng lượng lên đến 5-10%, đồng thời kéo dài tuổi thọ của thiết bị lạnh."
+                            </div>
+                            
+                            <p style="text-align: justify;">Đi kèm với giải pháp phần cứng là nền tảng phần mềm quản lý toàn diện chuỗi cung ứng lạnh. Hệ thống này cho phép người dùng giám sát từ xa, nhận cảnh báo kịp thời khi có sự cố, phân tích dữ liệu để tối ưu hóa vận hành, và đảm bảo tính minh bạch trong việc kiểm soát chất lượng sản phẩm theo các tiêu chuẩn nghiêm ngặt.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="image-container">
+                                <img src="/kholanh.png" alt="IoT Gateway" class="product-image" style="width: 50%; height: auto;">
+                                <div class="text-center">Bộ thiết bị Gateway tích hợp LoRa với khả năng truyền xa lên đến 10km</div>
                             </div>
                         </div>
-
-                        <div class="member">
-                            <div class="member-avatar">VH</div>
-                            <div class="member-info">
-                                <div class="member-name">Võ Văn Nhật</div>
-                                <div class="member-role">Trưởng nhóm</div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="image-container">
+                                <img src="/software-2.png" alt="Dashboard" class="product-image" style="width: 90%; height: auto;">
+                                <div class="text-center">Dashboard quản lý và giám sát thời gian thực với khả năng phân tích dữ liệu</div>
                             </div>
                         </div>
-
-                        <div class="member">
-                            <div class="member-avatar">PT</div>
-                            <div class="member-info">
-                                <div class="member-name">Nguyễn Văn Trúc</div>
-                                <div class="member-role">Thành viên</div>
-                            </div>
-                        </div>
-
-                        <div class="member">
-                            <div class="member-avatar">HK</div>
-                            <div class="member-info">
-                                <div class="member-name">Trương Đình Khang</div>
-                                <div class="member-role">Thành viên</div>
-                            </div>
-                        </div>
-
-                        <div class="member">
-                            <div class="member-avatar">NT</div>
-                            <div class="member-info">
-                                <div class="member-name">Võ Thị Ngọc Bích</div>
-                                <div class="member-role">Thành viên</div>
-                            </div>
-                        </div>
-
-                        <div class="member">
-                            <div class="member-avatar">NT</div>
-                            <div class="member-info">
-                                <div class="member-name">Nguyễn Khánh Ngọc</div>
-                                <div class="member-role">Thành viên</div>
+                        <div class="col-md-6">
+                            <div class="image-container">
+                                <img src="/software.png" alt="Cold chain monitoring" class="product-image" style="width: 90%; height: auto;">
+                                <div class="text-center">Giám sát toàn diện chuỗi cung ứng lạnh từ sản xuất đến tiêu thụ</div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="footer">
-            <div style="text-align: center; font-size: 10px; color: #666; padding: 10px;">
-                © 2025 Đại Học Đà Nẵng - Trường Đại Học Sư Phạm Kỹ Thuật. Tất cả quyền được bảo lưu.
+                
+                <div class="section">
+                    <h2 class="section-title"><i class="bi bi-stars"></i>TÍNH SÁNG TẠO</h2>
+                    <div class="feature-box">
+                        <p><i class="bi bi-cpu"></i><strong>Tích hợp AIoT và Thuật toán dự đoán thông minh </strong>: Tối ưu hóa vận hành và tiết kiệm năng lượng trong chuỗi cung ứng lạnh</p>
+                    </div>
+                    <div class="feature-box">
+                        <p><i class="bi bi-broadcast"></i><strong>Sử dụng truyền thông LoRa/LoRaWAN </strong>: Với khả năng truyền xa lên đến 10km, xuyên vật cản tốt trong môi trường kín</p>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="section">
+                            <h2 class="section-title"><i class="bi bi-graph-up-arrow"></i>KẾT QUẢ & TIỀM NĂNG PHÁT TRIỂN</h2>
+                            <!-- <div class="text-box">
+                                <p style="text-align: justify;"><strong>Tiềm năng thị trường:</strong> Thị trường IoT cho chuỗi cung ứng lạnh dự kiến tăng trưởng từ 3,8 tỷ USD năm 2023 lên 11,2 tỷ USD vào năm 2028, với tốc độ tăng trưởng kép hàng năm (CAGR) là 24%.</p>
+                            </div> -->
+                            <div class="stats-container">
+                                <div class="stat-item">
+                                    <p class="stat-value"><i class="bi bi-lightning-charge"></i>5-10%</p>
+                                    <p class="stat-label">Tiết kiệm năng lượng/tháng</p>
+                                </div>
+                                <div class="stat-item">
+                                    <p class="stat-value"><i class="bi bi-check-circle"></i>99.9%</p>
+                                    <p class="stat-label">Độ ổn định hệ thống</p>
+                                </div>
+                                <div class="stat-item">
+                                    <p class="stat-value"><i class="bi bi-thermometer-half"></i>±0.5°C</p>
+                                    <p class="stat-label">Độ chính xác nhiệt độ</p>
+                                </div>
+                                <div class="stat-item">
+                                    <p class="stat-value"><i class="bi bi-currency-dollar"></i>30%</p>
+                                    <p class="stat-label">Tiết kiệm chi phí vận hành</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="section">
+                            <h2 class="section-title"><i class="bi bi-people"></i>ĐỘI NGŨ PHÁT TRIỂN</h2>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="team-member">
+                                        <img src="/thaySinh.jpg" alt="TS. Nguyễn Phú Sinh">
+                                        <div class="member-info">
+                                            <p class="member-name">TS. Nguyễn Phú Sinh</p>
+                                            <p class="member-role">Giảng viên hướng dẫn</p>
+                                            <p class="member-contact"><i class="bi bi-envelope"></i> npsinh@ute.udn.vn</p>
+                                        </div>
+                                    </div>
+                                    <div class="team-member">
+                                        <img src="/nhat.jpg" alt="Võ Văn Nhật">
+                                        <div class="member-info">
+                                            <p class="member-name">Võ Văn Nhật</p>
+                                            <p class="member-role">Trưởng nhóm</p>
+                                            <p class="member-contact"><i class="bi bi-telephone"></i> 0886 125 584</p>
+                                        </div>
+                                    </div>
+                                    <div class="team-member">
+                                        <img src="/truc.jpg" alt="Nguyễn Văn Trúc">
+                                        <div class="member-info">
+                                            <p class="member-name">Nguyễn Văn Trúc</p>
+                                            <p class="member-role">Phát triển phần mềm</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="team-member">
+                                        <img src="/khang.jpg" alt="Trương Đình Khang">
+                                        <div class="member-info">
+                                            <p class="member-name">Trương Đình Khang</p>
+                                            <p class="member-role">Phát triển phần cứng</p>
+                                        </div>
+                                    </div>
+                                    <div class="team-member">
+                                        <img src="/bich.jpg" alt="Võ Thị Ngọc Bích">
+                                        <div class="member-info">
+                                            <p class="member-name">Võ Thị Ngọc Bích</p>
+                                            <p class="member-role">Quản lý logistics</p>
+                                        </div>
+                                    </div>
+                                    <div class="team-member">
+                                        <img src="/ngoc.jpg" alt="Nguyễn Khánh Ngọc">
+                                        <div class="member-info">
+                                            <p class="member-name">Nguyễn Khánh Ngọc</p>
+                                            <p class="member-role">Marketing & PR</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <h3 style="color: #0061a7; margin-bottom: 1rem; font-size: 2.5rem;">LIÊN HỆ</h3>
+                            <p style="text-align: center; font-size: 2rem;">
+                                <i class="bi bi-envelope-fill"></i> contact@evonics-tech.com &nbsp;&nbsp;|&nbsp;&nbsp;
+                                <i class="bi bi-telephone-fill"></i> 0886 125 584 &nbsp;&nbsp;|&nbsp;&nbsp;
+                                <i class="bi bi-geo-alt-fill"></i> Trường Đại học Sư phạm Kỹ thuật, Đại học Đà Nẵng
+                            </p>
+                            <p style="text-align: center; font-size: 2rem;">
+                                <i class="bi bi-globe"></i> www.evonics.tech
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
