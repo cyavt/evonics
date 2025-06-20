@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ứng Dụng Internet Vạn Vật (AIoT) Trong Quản Lý Chuỗi Lạnh Bền Vững</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @page {
+            size: A4;
+            margin: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+        }
+
+        .poster-container {
+            width: 210mm;
+            height: 297mm;
+            background: linear-gradient(135deg, #f8faff 0%, #e8f4f8 100%);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .poster-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="circuit" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="rgba(102,126,234,0.05)"/><line x1="0" y1="10" x2="20" y2="10" stroke="rgba(102,126,234,0.03)" stroke-width="0.5"/><line x1="10" y1="0" x2="10" y2="20" stroke="rgba(102,126,234,0.03)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23circuit)"/></svg>');
+            pointer-events: none;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1a237e 0%, #283593 50%, #3949ab 100%);
+            color: white;
+            padding: 12px 20px;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 3px solid #00bcd4;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 200px;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 188, 212, 0.1));
+            clip-path: polygon(50% 0%, 100% 0%, 100% 100%, 0% 100%);
+        }
+
+        .university-info {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .university-logo {
+            width: 55px;
+            height: 55px;
+            background: linear-gradient(135deg, #ffffff 0%, #e3f2fd 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #1a237e;
+            font-size: 11px;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            flex-shrink: 0;
+        }
+
+        .university-text {
+            flex: 1;
+        }
+
+        .university-name {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 2px;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            letter-spacing: 0.5px;
+        }
+
+        .school-name {
+            font-size: 12px;
+            margin-bottom: 6px;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+
+        .contest-title {
+            font-size: 11px;
+            font-weight: 600;
+            background: linear-gradient(135deg, rgba(0, 188, 212, 0.9), rgba(0, 150, 136, 0.9));
+            padding: 6px 12px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            display: inline-block;
+        }
+
+        .tech-badge {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, #00bcd4, #0097a7);
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 3px 10px rgba(0, 188, 212, 0.3);
+        }
+
+        .tech-badge::before {
+            content: '🔬';
+            font-size: 14px;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1.8fr;
+            gap: 15px;
+            padding: 15px;
+            height: calc(297mm - 95px);
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .section {
+            background: linear-gradient(135deg, #ffffff 0%, #f8faff 100%);
+            border-radius: 12px;
+            padding: 12px;
+            border-left: 4px solid;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, transparent 0%, rgba(102, 126, 234, 0.05) 100%);
+            border-radius: 0 12px 0 40px;
+        }
+
+        .section.summary {
+            border-left-color: #667eea;
+        }
+
+        .section.content {
+            border-left-color: #f093fb;
+        }
+
+        .section.innovation {
+            border-left-color: #4facfe;
+        }
+
+        .section-title {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-title::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                left: -100%;
+            }
+
+            100% {
+                left: 100%;
+            }
+        }
+
+        .section-title.green {
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+        }
+
+        .section-content {
+            font-size: 11px;
+            line-height: 1.4;
+            color: #333;
+            position: relative;
+            z-index: 1;
+        }
+
+        .main-section {
+            background: linear-gradient(135deg, #ffffff 0%, #f0f8ff 100%);
+            border-radius: 15px;
+            padding: 15px;
+            border: 2px solid #667eea;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+        }
+
+        .main-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><defs><linearGradient id="tech-bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="rgba(102,126,234,0.02)"/><stop offset="100%" stop-color="rgba(118,75,162,0.02)"/></linearGradient></defs><rect width="400" height="400" fill="url(%23tech-bg)"/><g opacity="0.1"><circle cx="100" cy="100" r="2" fill="%23667eea"/><circle cx="300" cy="150" r="1.5" fill="%23764ba2"/><circle cx="200" cy="300" r="2.5" fill="%23667eea"/><line x1="100" y1="100" x2="200" y2="150" stroke="%23667eea" stroke-width="0.5"/><line x1="200" y1="150" x2="300" y2="150" stroke="%23764ba2" stroke-width="0.5"/><line x1="200" y1="150" x2="200" y2="300" stroke="%23667eea" stroke-width="0.5"/></g></svg>');
+            pointer-events: none;
+        }
+
+        .main-title {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 4px 15px rgba(30, 60, 114, 0.3);
+        }
+
+        .iot-showcase {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .iot-device {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 10px;
+            padding: 12px;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .iot-device:hover {
+            transform: translateY(-3px);
+        }
+
+        .iot-device::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+            animation: scan 4s ease-in-out infinite;
+        }
+
+        @keyframes scan {
+
+            0%,
+            100% {
+                transform: translateX(-100%);
+            }
+
+            50% {
+                transform: translateX(100%);
+            }
+        }
+
+        .device-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            margin: 0 auto 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .device-name {
+            font-size: 10px;
+            font-weight: bold;
+            margin-bottom: 4px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .device-desc {
+            font-size: 8px;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .potential-section {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 13px;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 4px 15px rgba(240, 147, 251, 0.3);
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .result-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8faff 100%);
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            border-left: 3px solid #667eea;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .result-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, transparent, rgba(102, 126, 234, 0.1));
+            border-radius: 0 8px 0 30px;
+        }
+
+        .result-title {
+            background: #667eea;
+            color: white;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .result-list {
+            list-style: none;
+            font-size: 9px;
+            line-height: 1.3;
+        }
+
+        .result-list li {
+            margin-bottom: 3px;
+            padding-left: 12px;
+            position: relative;
+        }
+
+        .result-list li::before {
+            content: '⚡';
+            position: absolute;
+            left: 0;
+            color: #4facfe;
+            font-size: 10px;
+        }
+
+        .team-section {
+            background: linear-gradient(135deg, #ffffff 0%, #f8faff 100%);
+            border-radius: 10px;
+            padding: 12px;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .team-header {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+
+        .member {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px;
+            background: linear-gradient(135deg, #f8faff 0%, #ffffff 100%);
+            border-radius: 6px;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .member:hover {
+            transform: translateX(3px);
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+        }
+
+        .member-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+
+        .member-info {
+            font-size: 9px;
+            line-height: 1.2;
+            flex: 1;
+        }
+
+        .member-name {
+            font-weight: bold;
+            color: #1e3c72;
+            margin-bottom: 1px;
+        }
+
+        .member-role {
+            color: #666;
+            font-size: 8px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+            border: 2px solid #ff9800;
+            border-radius: 8px;
+            padding: 8px;
+            margin: 8px 0;
+            font-size: 10px;
+            font-style: italic;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .highlight-box::before {
+            content: '💡';
+            position: absolute;
+            top: 5px;
+            right: 8px;
+            font-size: 16px;
+            opacity: 0.7;
+        }
+
+        .connection-lines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .connection-line {
+            position: absolute;
+            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.2), transparent);
+            height: 1px;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .poster-container {
+                box-shadow: none;
+                width: 100%;
+                height: 100vh;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="poster-container">
+        <div class="connection-lines">
+            <div class="connection-line" style="top: 20%; left: 10%; width: 30%; animation-delay: 0s;"></div>
+            <div class="connection-line" style="top: 40%; right: 15%; width: 25%; animation-delay: 1s;"></div>
+            <div class="connection-line" style="top: 60%; left: 20%; width: 40%; animation-delay: 2s;"></div>
+            <div class="connection-line" style="top: 80%; right: 10%; width: 35%; animation-delay: 1.5s;"></div>
+        </div>
+
+        <div class="header">
+            <div class="university-info">
+                <div class="university-logo">
+                    <div style="text-align: center; line-height: 1.1;">
+                        <div style="font-size: 10px;">ĐH</div>
+                        <div style="font-size: 10px;">ĐN</div>
+                    </div>
+                </div>
+                <div class="university-text">
+                    <div class="university-name">ĐẠI HỌC ĐÀ NẴNG</div>
+                    <div class="school-name">TRƯỜNG ĐẠI HỌC SƯ PHẠM KỸ THUẬT</div>
+                    <div class="contest-title">
+                        CUỘC THI "SINH VIÊN VỚI Ý TƯỞNG KHỞI NGHIỆP" 2025
+                    </div>
+                </div>
+                <div class="tech-badge">
+                    IoT • AI • Innovation
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="sidebar">
+                <div class="section summary">
+                    <div class="section-title">I. TÓM TẮT</div>
+                    <div class="section-content">
+                        Chuỗi cung ứng lạnh đóng vai trò quan trọng trong việc duy trì chất lượng và tăng giá trị sản
+                        phẩm thông qua việc duy trì nhiệt độ thích hợp, kéo dài thời hạn sử dụng, giảm lãng phí và nâng
+                        cao chất lượng trong điều kiện khí hậu thay đổi.
+                    </div>
+                </div>
+
+                <div class="section content">
+                    <div class="section-title">II. NỘI DUNG</div>
+                    <div class="section-content">
+                        Sản phẩm của nhóm là bộ thiết bị IoT giám sát nhiệt độ, độ ẩm, GPS trong kho hàng và xe đông
+                        lạnh, giúp quản lý tự động hóa điều khiển nhiệt độ, tối ưu năng lượng và đảm bảo chất lượng thực
+                        phẩm. Hệ thống sử dụng LoRaWAN để truyền dữ liệu và Web dashboard để quản lý toàn bộ chuỗi cung
+                        ứng lạnh.
+                    </div>
+
+                    <div class="highlight-box">
+                        Tích hợp AI giúp dự đoán và tối ưu hóa vận hành thông minh, sử dụng LoRa cho độ tin cậy cao
+                        trong môi trường khắc nghiệt.
+                    </div>
+                </div>
+
+                <div class="section innovation">
+                    <div class="section-title green">III. TÍNH SÁNG TẠO</div>
+                    <div class="section-content">
+                        • Kết hợp AI và IoT trong quản lý chuỗi lạnh<br>
+                        • Ứng dụng LoRaWAN cho kết nối tầm xa<br>
+                        • Dashboard thời gian thực với cảnh báo thông minh<br>
+                        • Tối ưu năng lượng bằng thuật toán học máy
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-section">
+                <div class="main-title">
+                    ỨNG DỤNG INTERNET VẠN VẬT (AIOT) TRONG QUẢN LÝ CHUỖI LẠNH BỀN VỮNG
+                </div>
+
+                <div class="iot-showcase">
+                    <div class="iot-device">
+                        <div class="device-icon">🌡️</div>
+                        <div class="device-name">Cảm Biến Nhiệt Độ</div>
+                        <div class="device-desc">Giám sát liên tục nhiệt độ môi trường</div>
+                    </div>
+                    <div class="iot-device">
+                        <div class="device-icon">💧</div>
+                        <div class="device-name">Cảm Biến Độ Ẩm</div>
+                        <div class="device-desc">Theo dõi độ ẩm trong kho lạnh</div>
+                    </div>
+                    <div class="iot-device">
+                        <div class="device-icon">📍</div>
+                        <div class="device-name">GPS Tracking</div>
+                        <div class="device-desc">Định vị xe vận chuyển real-time</div>
+                    </div>
+                    <div class="iot-device">
+                        <div class="device-icon">📡</div>
+                        <div class="device-name">LoRaWAN Gateway</div>
+                        <div class="device-desc">Thu thập dữ liệu từ xa</div>
+                    </div>
+                    <div class="iot-device">
+                        <div class="device-icon">🤖</div>
+                        <div class="device-name">AI Analytics</div>
+                        <div class="device-desc">Phân tích dự đoán thông minh</div>
+                    </div>
+                    <div class="iot-device">
+                        <div class="device-icon">📱</div>
+                        <div class="device-name">Mobile App</div>
+                        <div class="device-desc">Quản lý từ xa qua smartphone</div>
+                    </div>
+                </div>
+
+                <div class="potential-section">
+                    IV. TIỀM NĂNG CỦA DỰ ÁN
+                </div>
+
+                <div class="results-grid">
+                    <div class="result-card">
+                        <div class="result-title">🎯 Kết Quả Đạt Được</div>
+                        <ul class="result-list">
+                            <li>Tiết kiệm 5% năng lượng thắng</li>
+                            <li>Tăng hiệu quả vận tải lên 30%</li>
+                            <li>Giảm 20% tổn thất hàng hóa</li>
+                            <li>Sản phẩm có chi phí cạnh tranh</li>
+                        </ul>
+                    </div>
+
+                    <div class="result-card">
+                        <div class="result-title">🚀 Tiềm Năng Phát Triển</div>
+                        <ul class="result-list">
+                            <li>Mở rộng ra thị trường ASEAN</li>
+                            <li>Tích hợp blockchain cho truy xuất</li>
+                            <li>Ứng dụng AR/VR cho training</li>
+                            <li>Phát triển API cho đối tác</li>
+                        </ul>
+                    </div>
+
+                    <div class="result-card">
+                        <div class="result-title">💰 Mô Hình Kinh Doanh</div>
+                        <ul class="result-list">
+                            <li>SaaS - Software as a Service</li>
+                            <li>Thu phí theo thiết bị kết nối</li>
+                            <li>Dịch vụ tư vấn chuyên nghiệp</li>
+                            <li>Bảo trì và nâng cấp hệ thống</li>
+                        </ul>
+                    </div>
+
+                    <div class="result-card">
+                        <div class="result-title">🌍 Tác Động Xã Hội</div>
+                        <ul class="result-list">
+                            <li>Giảm lãng phí thực phẩm</li>
+                            <li>Bảo vệ môi trường xanh sạch</li>
+                            <li>Tạo việc làm cho kỹ sư IoT</li>
+                            <li>Nâng cao an toàn thực phẩm</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="team-section">
+                    <div class="team-header">
+                        👥 V. ĐỘI NGŨ THỰC HIỆN DỰ ÁN
+                    </div>
+                    <div class="team-grid">
+                        <div class="member">
+                            <div class="member-avatar">TS</div>
+                            <div class="member-info">
+                                <div class="member-name">TS. Nguyễn Phú Sinh</div>
+                                <div class="member-role">Giảng viên hướng dẫn</div>
+                            </div>
+                        </div>
+
+                        <div class="member">
+                            <div class="member-avatar">VH</div>
+                            <div class="member-info">
+                                <div class="member-name">Võ Văn Nhật</div>
+                                <div class="member-role">Trưởng nhóm</div>
+                            </div>
+                        </div>
+
+                        <div class="member">
+                            <div class="member-avatar">PT</div>
+                            <div class="member-info">
+                                <div class="member-name">Nguyễn Văn Trúc</div>
+                                <div class="member-role">Thành viên</div>
+                            </div>
+                        </div>
+
+                        <div class="member">
+                            <div class="member-avatar">HK</div>
+                            <div class="member-info">
+                                <div class="member-name">Trương Đình Khang</div>
+                                <div class="member-role">Thành viên</div>
+                            </div>
+                        </div>
+
+                        <div class="member">
+                            <div class="member-avatar">NT</div>
+                            <div class="member-info">
+                                <div class="member-name">Võ Thị Ngọc Bích</div>
+                                <div class="member-role">Thành viên</div>
+                            </div>
+                        </div>
+
+                        <div class="member">
+                            <div class="member-avatar">NT</div>
+                            <div class="member-info">
+                                <div class="member-name">Nguyễn Khánh Ngọc</div>
+                                <div class="member-role">Thành viên</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div style="text-align: center; font-size: 10px; color: #666; padding: 10px;">
+                © 2025 Đại Học Đà Nẵng - Trường Đại Học Sư Phạm Kỹ Thuật. Tất cả quyền được bảo lưu.
+            </div>
+        </div>
+    </div>
+</body>
+</html>
